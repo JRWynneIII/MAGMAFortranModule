@@ -4,13 +4,13 @@
 ! functions.
 module magma
   Interface
-      Integer function magma_sgesv(n, nrhs, A, ida, ipiv,B, idb, info) BIND (C, NAME="magma_sgesv")
+      Integer function magma_sgesv(n, nrhs, A, lda, ipiv,B, idb, info) BIND (C, NAME="magma_sgesv")
         use iso_c_binding
         Implicit none
         integer (c_int),value::n
         integer (c_int),value::nrhs
         real (c_float)::A(*)
-        integer (c_int),value::ida
+        integer (c_int),value::lda
         integer (c_int)::ipiv(*)
         real (c_float)::B(*)
         integer (c_int),value::idb
@@ -18,13 +18,13 @@ module magma
       end function
    end Interface
   Interface
-      Integer function magma_dgesv(n, nrhs, A, ida, ipiv,B, idb, info) BIND (C, NAME="magma_dgesv")
+      Integer function magma_dgesv(n, nrhs, A, lda, ipiv,B, idb, info) BIND (C, NAME="magma_dgesv")
         use iso_c_binding
         Implicit none
         integer (c_int),value::n
         integer (c_int),value::nrhs
         real (c_double)::A(*)
-        integer (c_int),value::ida
+        integer (c_int),value::lda
         integer (c_int)::ipiv(*)
         real (c_double)::B(*)
         integer (c_int),value::idb
@@ -32,25 +32,25 @@ module magma
       end function
    end Interface
   Interface
-      Integer function magma_dgetrf(m, n, a, ida, ipiv, info) BIND (C, NAME="magma_dgetrf")
+      Integer function magma_dgetrf(m, n, a, lda, ipiv, info) BIND (C, NAME="magma_dgetrf")
         use iso_c_binding
         Implicit none
         integer (c_int),value::m
         integer (c_int),value::n
         real (c_double)::a(*)
-        integer (c_int),value::ida
+        integer (c_int),value::lda
         integer (c_int)::ipiv(*)
         integer (c_int)::info
       end function
    end Interface
   Interface
-      Integer function magma_dgeqrf(m, n, a, ida, tau, work, lwork, info) BIND (C, NAME="magma_dgeqrf")
+      Integer function magma_dgeqrf(m, n, a, lda, tau, work, lwork, info) BIND (C, NAME="magma_dgeqrf")
         use iso_c_binding
         Implicit none
         integer (c_int),value::m
         integer (c_int),value::n
         real (c_double)::a(*)
-        integer (c_int),value::ida
+        integer (c_int),value::lda
         real (c_double)::tau(*)
         real (c_double)::work(*)
         integer (c_int)::lwork
@@ -58,13 +58,27 @@ module magma
       end function
    end Interface
   Interface
-      Integer function magma_dpotrf(uplo, n, a, ida, info) BIND (C, NAME="magma_dpotrf")
+      Integer function magma_dpotrf(uplo, n, a, lda, info) BIND (C, NAME="magma_dpotrf")
         use iso_c_binding
         Implicit none
-        character (c_char) :: uplo
+        character (c_char), value :: uplo
+        integer (c_int), value ::n
+        real (c_double), value ::a(*)
+        integer (c_int), value ::lda
+        integer (c_int)::info
+      end function
+   end Interface
+  Interface
+      Integer function magma_dgeqlf(m, n, a, lda, tau, work, lwork, info) BIND (C, NAME="magma_dgeqlf")
+        use iso_c_binding
+        Implicit none
+        integer (c_int),value::m
         integer (c_int),value::n
         real (c_double)::a(*)
-        integer (c_int),value::ida
+        integer (c_int),value::lda
+        real (c_double)::tau(*)
+        real (c_double)::work(*)
+        integer (c_int)::lwork
         integer (c_int)::info
       end function
    end Interface

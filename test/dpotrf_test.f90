@@ -10,7 +10,8 @@ Program LinearEquations
 ! Declarations, notice single precision
   Real (KIND=C_DOUBLE) :: A(3,3)
   Character (KIND=C_CHAR), parameter :: uplo = "U"
-  Integer (KIND=C_INT) :: n = 3, i,j, lda = 3, ok, status
+  Integer (KIND=C_INT), parameter :: n = 3, lda = 3
+  Integer (KIND=C_INT) :: i,j,ok,status
 
 ! Define matrix A
   A(1,1)=3
