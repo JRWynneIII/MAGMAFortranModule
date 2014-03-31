@@ -1,17 +1,11 @@
 Program LinearEquations
-! This solves the matrix equation A*x=b using MAGMA
-! Include both the custom magma module (magma.f90) and the ISO_C_BINDING module
-! so that the variables that are passed to the magma function are of the right C
-! type
   use magma
   use iso_c_binding
   Implicit none
 
-! Declarations, notice single precision
-  Real (KIND=C_DOUBLE) :: A(3,3), b(3)
-  Integer (KIND=C_INT) :: i, j, pivot(3), ok, status
+  Real (KIND=C_DOUBLE) :: A(3,3), b(3), C(3,3), d(3)
+  Integer (KIND=C_INT) :: i, j, pivot(3), ok, status, k
 
-! Define matrix A
   A(1,1)=3.1
   A(1,2)=1.3
   A(1,3)=-5.7
@@ -22,44 +16,42 @@ Program LinearEquations
   A(3,2)=7.2
   A(3,3)=-8.8
 
-! Define vector b, make b a matrix and you can solve multiple
-! equations with the same A but different b
   b(1)=-1.3
   b(2)=-0.1
   b(3)=1.8
 
-! Find the solution using the MAGMA routine MAGMA_SGESV
+  print*, "Computing MAGMA"
   status = MAGMA_DGESV(3, 1, A, 3, pivot, b, 3, ok)
 
-! Parameters in the order as they appear in the function call
-!    order of matrix A, number of right hand sides (b), matrix A,
-!    leading dimension of A, array that records pivoting, 
-!    result vector b on entry, x on exit, leading dimension of b
-!    return value   
 
-! print the vector x
-  do i=1, 3
-     write(*,*) b(i)
-  end do
+  C(1,1)=3.1
+  C(1,2)=1.3
+  C(1,3)=-5.7
+  C(2,1)=1.0
+  C(2,2)=-6.9
+  C(2,3)=5.8
+  C(3,1)=3.4
+  C(3,2)=7.2
+  C(3,3)=-8.8
 
-  A(1,1)=3.1
-  A(1,2)=1.3
-  A(1,3)=-5.7
-  A(2,1)=1.0
-  A(2,2)=-6.9
-  A(2,3)=5.8
-  A(3,1)=3.4
-  A(3,2)=7.2
-  A(3,3)=-8.8
+  d(1)=-1.3
+  d(2)=-0.1
+  d(3)=1.8
 
-  b(1)=-1.3
-  b(2)=-0.1
-  b(3)=1.8
-
-  print*, "LAPACK"
-  call DGESV(3, 1, A, 3, pivot, b, 3, ok)
+  print*, "Computing LAPACK"
+  call DGESV(3, 1, C, 3, pivot, d, 3, ok)
 
   do i=1, 3
-     write(*,*) b(i)
+    if (real(b(i)) /= real(d(i))) then
+      print*, "TEST FAIL"
+      do k=1, 3
+          write(*,*) b(k)
+      end do
+      do k=1, 3
+          write(*,*) d(k)
+      end do
+      call exit(1)
+    endif
   end do
+  print*, "TEST SUCCESSFUL!"
 end

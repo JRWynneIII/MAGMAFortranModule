@@ -82,4 +82,18 @@ module magma
         integer (c_int)::info
       end function
    end Interface
+  Interface
+      Integer function magma_dgelqf(m, n, a, lda, tau, work, lwork, info) BIND (C, NAME="magma_dgelqf")
+        use iso_c_binding
+        Implicit none
+        integer (c_int),value::m
+        integer (c_int),value::n
+        real (c_double)::a(*)
+        integer (c_int),value::lda
+        real (c_double)::tau(*)
+        real (c_double)::work(*)
+        integer (c_int)::lwork
+        integer (c_int)::info
+      end function
+   end Interface
 end module

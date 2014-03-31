@@ -4,7 +4,8 @@ Program LinearEquations
   Implicit none
 
   Real (KIND=C_DOUBLE) :: B(3,3), A(3,3), tau(3), work(3)
-  Integer (KIND=C_INT) :: i, j, k, l, lwork = 9, ok, status
+  integer (KIND=C_INT) :: m = 3, n = 3, lda = 3
+  Integer (KIND=C_INT) :: k, l, i, j, lwork = 3, ok, status
 
   A(1,1)=3
   A(1,2)=1
@@ -16,8 +17,10 @@ Program LinearEquations
   A(3,2)=7
   A(3,3)=8
 
+  !status = MAGMA_DGELQF(m, n, A, lda, tau, work, lwork, ok)
+  status = MAGMA_DGELQF(3,3,A,3,tau,work,lwork,ok)
   print*, "Computing MAGMA"
-  status = MAGMA_DGEQRF(3, 3, A, 3, tau, work, lwork, ok)
+
 
   B(1,1)=3
   B(1,2)=1
@@ -28,9 +31,10 @@ Program LinearEquations
   B(3,1)=3
   B(3,2)=7
   B(3,3)=8
-  print*, "Compuing LAPACK"
-! print the vector x
-  call DGEQRF(3,3,B,3,tau,work,lwork,ok)
+  print*, "Computing LAPACK"
+
+  call DGELQF(3,3,B,3,tau,work,lwork,ok)
+
 
   do i=1, 3
     do j = 1, 3
