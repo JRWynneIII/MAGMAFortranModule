@@ -108,4 +108,25 @@ module magma
         integer (c_int)::info
      end function
    end Interface
+   Interface
+      Integer function magma_dgesv_gpu(n, nrhs, dA, ldda, ipiv, dB, lddb, info) BIND (C, NAME="magma_dgesv_gpu")
+        use iso_c_binding
+        use cudafor
+        implicit none
+        integer (c_int),value::n
+        integer (c_int),value::nrhs
+        real (c_double),device,dimension(:)::dA(*)
+        integer (c_int),value::ldda
+        integer (c_int)::ipiv(*)
+        real (c_double),device,dimension(:)::dB(*)
+        integer (c_int),value::lddb
+        integer (c_int)::info
+      end function
+    end interface
+    Interface
+      Integer function magma_init() BIND (C, NAME="magma_init")
+        use iso_c_binding
+        Implicit none
+      end function
+   end Interface
 end module
