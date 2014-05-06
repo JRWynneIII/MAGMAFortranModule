@@ -33,5 +33,18 @@ module magma_device
         integer (c_int)::info
       end function
    end Interface
+  Interface
+      Integer function magma_dgeqrf_gpu(m, n, dA, ldda, tau, dT, info) BIND (C, NAME="magma_dgeqrf_gpu")
+        use iso_c_binding
+        Implicit none
+        integer (c_int),value::m
+        integer (c_int),value::n
+        real (c_double),device,dimension(:,:)::dA(*)
+        integer (c_int),value::ldda
+        real (c_double)::tau(*)
+        real (c_double),device,dimension(:)::dT(*)
+        integer (c_int)::info
+      end function
+   end Interface
 
 end module

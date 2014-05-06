@@ -1,13 +1,16 @@
 Program LinearEquations
-  use magma
+  use magma_device
   use cudafor
   use iso_c_binding
   Implicit none
 
   Real (KIND=C_DOUBLE) :: B(3,3), A(3,3), tau(3), work(3)
-  Real (KIND=C_DOUBLE), device, dimension(:,:), allocatable :: dB, dA
+  Real (KIND=C_DOUBLE), device, dimension(:,:), allocatable :: dA
+  Real (KIND=C_DOUBLE), device, dimension(:), allocatable :: dT
   Integer (KIND=C_INT) :: i, j, k, l, lwork = 9, ok, status
 
+  allocate(dA(3,3))
+  allocate(dT(3))
   status = magma_init()
 
   A(1,1)=3
@@ -20,8 +23,13 @@ Program LinearEquations
   A(3,2)=7
   A(3,3)=8
 
+  dA = A
+  dT = work
+
   print*, "Computing MAGMA"
-  status = MAGMA_DGEQRF_GPU(3, 3, A, 3, tau, work, lwork, ok)
+  status = MAGMA_DGEQRF_GPU(3, 3, dA, 3, tau, dT, ok)
+
+  A = dA
 
   B(1,1)=3
   B(1,2)=1
