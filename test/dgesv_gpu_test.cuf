@@ -1,5 +1,5 @@
 Program LinearEquations
-  use magma
+  use magma_device
   use cudafor
   use iso_c_binding
   Implicit none

@@ -1,5 +1,5 @@
 Program LinearEquations
-  use magma
+  use magma_device
   use cudafor
   use iso_c_binding
   Implicit none
@@ -7,6 +7,8 @@ Program LinearEquations
   Real (KIND=C_DOUBLE) :: A(3,3), C(3,3)
   Real (KIND=C_DOUBLE),device,dimension(:,:),allocatable :: dA, dC
   Integer (KIND=C_INT) :: i, j, k, l, pivot(3), ok, status
+
+  status = magma_init()
 
   allocate(dA(3,3))
   allocate(dC(3,3))
