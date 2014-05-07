@@ -95,6 +95,17 @@ module magma
       end function
    end Interface
   Interface
+      Integer function magma_spotrf(uplo, n, a, lda, info) BIND (C, NAME="magma_spotrf")
+        use iso_c_binding
+        Implicit none
+        character (c_char), value :: uplo
+        integer (c_int), value ::n
+        real (c_float) ::a(*)
+        integer (c_int), value ::lda
+        integer (c_int)::info
+      end function
+   end Interface
+  Interface
       Integer function magma_dgeqlf(m, n, a, lda, tau, work, lwork, info) BIND (C, NAME="magma_dgeqlf")
         use iso_c_binding
         Implicit none
