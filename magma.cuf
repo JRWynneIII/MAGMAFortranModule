@@ -74,6 +74,20 @@ module magma_device
       end function
    end Interface
   Interface
+      Integer function magma_cgeqrf_gpu(m, n, dA, ldda, tau, dT, info) BIND (C, NAME="magma_cgeqrf_gpu")
+        use iso_c_binding
+        use cudafor
+        Implicit none
+        integer (c_int),value::m
+        integer (c_int),value::n
+        complex (c_float_complex),device,dimension(:,:)::dA(*)
+        integer (c_int),value::ldda
+        complex (c_float_complex)::tau(*)
+        complex (c_float_complex),device,dimension(:)::dT(*)
+        integer (c_int)::info
+      end function
+   end Interface
+  Interface
       Integer function magma_sgeqrf_gpu(m, n, dA, ldda, tau, dT, info) BIND (C, NAME="magma_sgeqrf_gpu")
         use iso_c_binding
         use cudafor
@@ -95,6 +109,18 @@ module magma_device
         character (c_char), value :: uplo
         integer (c_int), value ::n
         real (c_double),device,dimension(:,:)::dA(*)
+        integer (c_int), value ::lda
+        integer (c_int)::info
+      end function
+   end Interface
+  Interface
+      Integer function magma_cpotrf_gpu(uplo, n, dA, lda, info) BIND (C, NAME="magma_cpotrf_gpu")
+        use iso_c_binding
+        use cudafor
+        Implicit none
+        character (c_char), value :: uplo
+        integer (c_int), value ::n
+        complex (c_float_complex),device,dimension(:,:)::dA(*)
         integer (c_int), value ::lda
         integer (c_int)::info
       end function
