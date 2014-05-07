@@ -70,6 +70,20 @@ module magma
       end function
    end Interface
   Interface
+      Integer function magma_cgeqrf(m, n, a, lda, tau, work, lwork, info) BIND (C, NAME="magma_cgeqrf")
+        use iso_c_binding
+        Implicit none
+        integer (c_int),value::m
+        integer (c_int),value::n
+        complex (c_float_complex)::a(*)
+        integer (c_int),value::lda
+        complex (c_float_complex)::tau(*)
+        complex (c_float_complex)::work(*)
+        integer (c_int)::lwork
+        integer (c_int)::info
+      end function
+   end Interface
+  Interface
       Integer function magma_sgeqrf(m, n, a, lda, tau, work, lwork, info) BIND (C, NAME="magma_sgeqrf")
         use iso_c_binding
         Implicit none
