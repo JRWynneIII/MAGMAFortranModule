@@ -198,4 +198,16 @@ module magma
         integer (c_int)::info
      end function
    end Interface
+   Interface
+     Integer function magma_zgetrf(m, n, a, lda, ipiv, info) BIND (C, NAME="magma_zgetrf")
+        use iso_c_binding
+        Implicit none
+        integer (c_int),value::m
+        integer (c_int),value::n
+        Complex (c_double_complex)::a(*)
+        integer (c_int),value::lda
+        integer (c_int)::ipiv(*)
+        integer (c_int)::info
+     end function
+   end Interface
 end module
