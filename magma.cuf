@@ -153,6 +153,18 @@ module magma_device
       end function
    end Interface
   Interface
+      Integer function magma_zpotrf_gpu(uplo, n, dA, lda, info) BIND (C, NAME="magma_zpotrf_gpu")
+        use iso_c_binding
+        use cudafor
+        Implicit none
+        character (c_char), value :: uplo
+        integer (c_int), value ::n
+        complex (c_double_complex),device,dimension(:,:)::dA(*)
+        integer (c_int), value ::lda
+        integer (c_int)::info
+      end function
+   end Interface
+  Interface
       Integer function magma_spotrf_gpu(uplo, n, dA, lda, info) BIND (C, NAME="magma_spotrf_gpu")
         use iso_c_binding
         use cudafor
