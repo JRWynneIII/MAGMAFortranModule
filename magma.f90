@@ -147,6 +147,20 @@ module magma
         integer (c_int)::info
       end function
    end Interface
+  Interface
+      Integer function magma_sgelqf(m, n, a, lda, tau, work, lwork, info) BIND (C, NAME="magma_sgelqf")
+        use iso_c_binding
+        Implicit none
+        integer (c_int),value::m
+        integer (c_int),value::n
+        real (c_float)::a(*)
+        integer (c_int),value::lda
+        real (c_float)::tau(*)
+        real (c_float)::work(*)
+        integer (c_int)::lwork
+        integer (c_int)::info
+      end function
+   end Interface
    Interface
      Integer function magma_cgetrf(m, n, a, lda, ipiv, info) BIND (C, NAME="magma_cgetrf")
         use iso_c_binding
