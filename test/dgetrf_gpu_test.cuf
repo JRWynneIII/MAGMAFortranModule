@@ -5,15 +5,12 @@ Program LinearEquations
   Implicit none
 
   Real (KIND=C_DOUBLE) :: A(3,3), C(3,3)
-  Real (KIND=C_DOUBLE),device,dimension(:,:),allocatable :: dA, dC
+  Real (KIND=C_DOUBLE),device,dimension(:,:),allocatable :: dA
   Integer (KIND=C_INT) :: i, j, k, l, pivot(3), ok, status
 
   status = magma_init()
 
   allocate(dA(3,3))
-  allocate(dC(3,3))
-  dA = A
-  dC = C
 
   A(1,1)=3
   A(1,2)=1
@@ -24,6 +21,7 @@ Program LinearEquations
   A(3,1)=3
   A(3,2)=7
   A(3,3)=8
+  dA = A
 
   print*, "Computing Magma"
 
@@ -42,7 +40,6 @@ Program LinearEquations
   print*, "Computing LAPACK"
 
   call DGETRF(3,3,C,3,pivot,ok)
-  C = dC  
 
   do i=1, 3
     do j = 1, 3

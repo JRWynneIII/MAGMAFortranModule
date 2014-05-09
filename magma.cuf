@@ -176,5 +176,21 @@ module magma_device
         integer (c_int)::info
       end function
    end Interface
+  Interface
+    Integer function magma_sgetrs_gpu(trans,n,nrhs,dA,ldda,ipiv,dB,lddb,info) BIND (C,NAME="magma_sgetrs_gpu")
+      use iso_c_binding
+      use cudafor
+      Implicit None
+      Character (c_char),value :: trans
+      integer (c_int),value :: n
+      integer (c_int),value :: nrhs
+      real (c_float),device,dimension(:,:) :: dA(*)
+      integer (c_int),value :: ldda
+      integer (c_int),value :: ipiv(*)
+      real (c_float),device,dimension(:) :: dB(*)
+      integer (c_int),value :: lddb
+      integer (c_int) :: info
+    end function
+  end interface
 
 end module
